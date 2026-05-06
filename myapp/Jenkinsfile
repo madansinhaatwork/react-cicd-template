@@ -47,10 +47,12 @@ pipeline {
 
         stage('Build React App') {
             steps {
+                dir('myapp'){
                 sh '''
                     npm run build
                 '''
             }
+        }
         }
 
         stage('Build Docker Image') {
