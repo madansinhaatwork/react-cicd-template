@@ -18,7 +18,7 @@ function App() {
         <div>
           <h1>Get started with CI/CD</h1>
           <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
+            Edit <code>src/App.tsx</code> and save to test auto-deploy feature to undertsand the jenkins.<code>HMR</code>
           </p>
         </div>
         <button
