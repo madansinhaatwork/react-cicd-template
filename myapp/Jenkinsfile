@@ -36,12 +36,14 @@ pipeline {
         }
 
         stage('Install Dependencies') {
-            steps {
-                sh '''
-                    npm ci
-                '''
-            }
+    steps {
+        dir('myapp') {
+            sh '''
+                npm install
+            '''
         }
+    }
+}
 
         stage('Build React App') {
             steps {
