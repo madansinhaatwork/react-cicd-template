@@ -5,6 +5,7 @@ pipeline {
         IMAGE_NAME = "vite-react-app-image"
         CONTAINER_NAME = "vite-react-app-container"
         APP_PORT = "3000"
+        APP_DIR = "myapp"
     }
 
     stages {
@@ -26,40 +27,51 @@ pipeline {
                     echo "Docker version:"
                     docker -v
 
-                    echo "Current directory:"
+                    echo "Current workspace directory:"
                     pwd
 
-                    echo "Files:"
+                    echo "Workspace files:"
                     ls -la
+
+                    echo "Application folder files:"
+                    ls -la $APP_DIR
                 '''
             }
         }
 
         stage('Install Dependencies') {
-    steps {
-        dir('myapp') {
-            sh '''
-                npm install
-            '''
+            steps {
+                dir("${APP_DIR}") {
+                    sh '''
+                        echo "Installing dependencies inside:"
+                        pwd
+                        npm install
+                    '''
+                }
+            }
         }
-    }
-}
 
         stage('Build React App') {
             steps {
-                dir('myapp'){
-                sh '''
-                    npm run build
-                '''
+                dir("${APP_DIR}") {
+                    sh '''
+                        echo "Building React app inside:"
+                        pwd
+                        npm run build
+                    '''
+                }
             }
-        }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh '''
-                    docker build -t $IMAGE_NAME:latest .
-                '''
+                dir("${APP_DIR}") {
+                    sh '''
+                        echo "Building Docker image inside:"
+                        pwd
+                        docker build -t $IMAGE_NAME:latest .
+                    '''
+                }
             }
         }
 
